@@ -44,10 +44,10 @@ def main():
     print("\n--- 2. Running N-Gram Analysis on Search Terms ---")
     ngram_analysis = analyze_ngrams(search_terms_df, min_ngram=2, max_ngram=3)
 
-    # Display top 5 most expensive 2-grams for review
-    if '2-grams' in ngram_analysis and not ngram_analysis['2-grams'].empty:
-        print("\nTop 5 Most Expensive 2-Grams:")
-        print(ngram_analysis['2-grams'].head(5)[['N-Gram', 'Cost', 'CTR', 'CPA', 'ROAS']])
+    # # Display top 5 most expensive 2-grams for review
+    # if '2-grams' in ngram_analysis and not ngram_analysis['2-grams'].empty:
+    #     print("\nTop 5 Most Expensive 2-Grams:")
+    #     print(ngram_analysis['2-grams'].head(5)[['N-Gram', 'Cost', 'CTR', 'CPA', 'ROAS']])
 
     # --- 4. Identify Opportunities ---
     print("\n--- 3. Identifying Optimization Opportunities ---")
