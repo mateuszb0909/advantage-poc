@@ -64,7 +64,7 @@ def generate_suggestions(client, underperforming_ad, best_ngrams_df, mismatched_
     # --- 3. Call API & Format Response ---
     print(f"\n   > Calling Gemini AI for '{underperforming_ad['Ad group']}'...")
     try:
-        response_stream = client.models.generate_content_stream(model=model_name, contents=contents, config=config)
+        response_stream = client.models.generate_content_stream(model=model_name, contents=contents, config=generation_config)
         full_response_text = "".join(chunk.text for chunk in response_stream)
 
         if not full_response_text.strip():
@@ -81,7 +81,8 @@ def generate_suggestions(client, underperforming_ad, best_ngrams_df, mismatched_
             for k, d in enumerate(variation.get('descriptions', [])):
                 suggestion_str += f"- D{k+1}: {d}\n"
             formatted_suggestions.append(suggestion_str)
-
+        print(formatted_suggestions)
         return formatted_suggestions
+    
     except Exception as e:
         return [f"An error occurred: {e}"]
