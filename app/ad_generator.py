@@ -85,7 +85,7 @@ def generate_suggestions(client, underperforming_ad, best_ngrams_df, mismatched_
         formatted_suggestions.append(before_str)
 
         # AFTER Header
-        formatted_suggestions.append("\n---\n\n**AFTER (🚀 AI-Generated Suggestions)**")
+        formatted_suggestions.append("\n---\n\n**AFTER (AI-Generated Suggestions)**")
 
         # Each suggestion as a separate card-like item
         for i, variation in enumerate(response_json.get('ad_variations', [])):

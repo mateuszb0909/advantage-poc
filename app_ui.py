@@ -71,8 +71,8 @@ def main_page():
 
     # --- Tabbed Results Area ---
     # This section will be populated after the analysis runs.
-    with ui.row().classes('w-full justify-center mt-4'):
-         with ui.card().classes('w-full max-w-4xl'):
+    with ui.row().classes('w-full mx-0'):
+         with ui.card().classes('w-full mx-0'):
             # Create a container for the tabs that will be added dynamically.
             tabs_container = ui.column().classes('w-full')
 
@@ -120,7 +120,7 @@ def main_page():
         with tabs_container:
             with ui.tabs().classes('w-full') as tabs:
                 analysis_tab = ui.tab('Analysis Results')
-                suggestions_tab = ui.tab('AI-Powered Ad Copy Suggestions')
+                suggestions_tab = ui.tab('🚀 AI-Powered Ad Copy Suggestions')
 
             with ui.tab_panels(tabs, value=analysis_tab).classes('w-full bg-transparent p-4'):
                 # --- Analysis Tab Panel ---
