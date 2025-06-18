@@ -72,16 +72,40 @@ def generate_suggestions(client, underperforming_ad, best_ngrams_df, mismatched_
 
         response_json = json.loads(full_response_text)
 
-        formatted_suggestions = [f"**BEFORE (Underperforming Ad)**\n- **Headline:** {headline}\n- **Description:** {underperforming_ad.get('Description 1', 'N/A')}\n- **CTR:** {ctr:.2%}\n"]
-        formatted_suggestions.append("**AFTER (AI-Generated Suggestions)**")
+        # Improved User-Friendly Output Formatting
+        formatted_suggestions = []
+
+        # BEFORE Section
+        before_str = (
+            "**BEFORE (Underperforming Ad)**\n\n"
+            f"> **Headline:** {headline}\n"
+            f"> **Description:** {underperforming_ad.get('Description 1', 'N/A')}\n"
+            f"> **CTR:** {ctr:.2%}"
+        )
+        formatted_suggestions.append(before_str)
+
+        # AFTER Header
+        formatted_suggestions.append("\n---\n\n**AFTER (🚀 AI-Generated Suggestions)**")
+
+        # Each suggestion as a separate card-like item
         for i, variation in enumerate(response_json.get('ad_variations', [])):
             suggestion_str = f"**Suggestion Set {i+1}**\n"
-            for j, h in enumerate(variation.get('headlines', [])):
-                suggestion_str += f"- H{j+1}: {h}\n"
-            for k, d in enumerate(variation.get('descriptions', [])):
-                suggestion_str += f"- D{k+1}: {d}\n"
+            headlines = variation.get('headlines', [])
+            descriptions = variation.get('descriptions', [])
+
+            suggestion_str += "> **Headlines:**\n"
+            for j, h in enumerate(headlines):
+                suggestion_str += f"> - H{j+1}: {h}\n"
+
+            suggestion_str += "> \n" # spacer
+            suggestion_str += "> **Descriptions:**\n"
+            for k, d in enumerate(descriptions):
+                suggestion_str += f"> - D{k+1}: {d}\n"
+
             formatted_suggestions.append(suggestion_str)
-        print(formatted_suggestions)
+        
+        # Print for console view
+        print("\n".join(formatted_suggestions))
         return formatted_suggestions
     
     except Exception as e:
