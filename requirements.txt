@@ -1,0 +1,5 @@
+pandas
+nltk
+google-generativeai
+python-dotenv 
+google-genai
