@@ -64,45 +64,24 @@ def generate_suggestions(client, underperforming_ad, best_ngrams_df, mismatched_
     # --- 3. Call API & Format Response ---
     print(f"\n   > Calling Gemini AI for '{underperforming_ad['Ad group']}'...")
     try:
-        # THE FIX: The keyword argument should be 'config', not 'generation_config'.
-        response_stream = client.models.generate_content_stream(model=model_name, contents=contents, config=generation_config)
-        
-        full_response_text = "".join(chunk.text for chunk in response_stream)
-        
-        if not full_response_text.strip():
-            return ["  An error occurred: Received empty response from API."]
-            
-        response_stream = client.models.generate_content_stream(model=model_name, contents=contents, config=generation_config)
-
+        response_stream = client.models.generate_content_stream(model=model_name, contents=contents, config=config)
         full_response_text = "".join(chunk.text for chunk in response_stream)
 
         if not full_response_text.strip():
-            return ["  An error occurred: Received empty response from API."]
+            return ["An error occurred: Received empty response from API."]
 
         response_json = json.loads(full_response_text)
 
-        # --- Create "Before and After" output ---
-        formatted_suggestions = ["\n-------------------------------------------------------------"]
-        formatted_suggestions.append(f"| Ad Group: {underperforming_ad['Ad group']}")
-        formatted_suggestions.append("|------------------------------------------------------------")
-        formatted_suggestions.append("| BEFORE (Underperforming Ad)")
-        formatted_suggestions.append(f"|   Headline: {underperforming_ad['Headline 1']}")
-        # Assuming 'Description 1' is a column in the ads_df
-        formatted_suggestions.append(f"|   Description: {underperforming_ad.get('Description 1', 'N/A')}")
-        formatted_suggestions.append(f"|   CTR: {underperforming_ad['CTR']:.2%}\n")
-
-
-        formatted_suggestions.append("| AFTER (AI-Generated Suggestions)")
+        formatted_suggestions = [f"**BEFORE (Underperforming Ad)**\n- **Headline:** {headline}\n- **Description:** {underperforming_ad.get('Description 1', 'N/A')}\n- **CTR:** {ctr:.2%}\n"]
+        formatted_suggestions.append("**AFTER (AI-Generated Suggestions)**")
         for i, variation in enumerate(response_json.get('ad_variations', [])):
-            formatted_suggestions.append(f"|   Suggestion Set {i+1}:")
-            for j, headline in enumerate(variation.get('headlines', [])):
-                formatted_suggestions.append(f"|     H{j+1}: {headline}")
-            for k, description in enumerate(variation.get('descriptions', [])):
-                formatted_suggestions.append(f"|     D{k+1}: {description}")
-            formatted_suggestions.append("|") # Add a blank line for spacing
-
-        formatted_suggestions.append("-------------------------------------------------------------")
+            suggestion_str = f"**Suggestion Set {i+1}**\n"
+            for j, h in enumerate(variation.get('headlines', [])):
+                suggestion_str += f"- H{j+1}: {h}\n"
+            for k, d in enumerate(variation.get('descriptions', [])):
+                suggestion_str += f"- D{k+1}: {d}\n"
+            formatted_suggestions.append(suggestion_str)
 
         return formatted_suggestions
     except Exception as e:
-        return [f"  An error occurred: {e}"]
+        return [f"An error occurred: {e}"]

@@ -9,6 +9,14 @@ from app.ngram_analyzer import analyze_ngrams
 from app.ad_analyzer import find_underperforming_ads, find_best_ngrams, find_mismatched_ngrams
 from app.ad_generator import generate_suggestions
 
+from app.gui import create_gui
+from nicegui import ui
+
+# Create the user interface
+create_gui()
+
+# Run the NiceGUI app
+ui.run(title="Advantage+ Ad Optimizer", port=8080)
 
 def main():
     """
