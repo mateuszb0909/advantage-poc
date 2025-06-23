@@ -34,9 +34,9 @@ def load_data_from_stream(stream):
 def main_page():
     """Defines the main user interface of the application."""
     # --- UI Setup ---
-    ui.label('AdVantage POC Analysis').classes('text-h4 font-bold text-center my-4')
 
     with ui.card().classes('w-full max-w-4xl mx-auto'):
+        ui.label('AdVantage POC Analysis').classes('text-h4 font-bold text-center my-4')
         with ui.card_section():
             ui.label('1. Upload Your Data').classes('text-h6')
             ui.label('Provide your ad performance and search term data in CSV format.')
@@ -119,7 +119,7 @@ def main_page():
         tabs_container.clear() # Clear the spinner
         with tabs_container:
             with ui.tabs().classes('w-full') as tabs:
-                analysis_tab = ui.tab('Analysis Results')
+                analysis_tab = ui.tab('📊 Analysis Results')
                 suggestions_tab = ui.tab('🚀 AI-Powered Ad Copy Suggestions')
 
             with ui.tab_panels(tabs, value=analysis_tab).classes('w-full bg-transparent p-4'):
@@ -152,9 +152,8 @@ def main_page():
         # Underperforming Ads Section
         ui.label("Underperforming Ad(s) Identified:").classes('text-xl font-semibold')
         ui.markdown(
-            "**Methodology:** These ads are identified as underperforming because they have a high number of "
-            "impressions (e.g., >10,000) but a low Click-Through Rate (CTR) (e.g., <4%). This indicates that "
-            "while the ad is being seen frequently, it's not compelling enough for users to click on."
+            "**Methodology:** These ads are identified as underperforming as they have a high number of "
+            "impressions (>10,000) but a low Click-Through Rate (CTR) (<4%)."
         ).classes('text-sm my-2')
         if not underperforming_ads.empty:
             ui.table(columns=[{'name': col, 'label': col, 'field': col} for col in underperforming_ads.columns], rows=underperforming_ads.to_dict('records')).classes('w-full my-4')
@@ -165,8 +164,8 @@ def main_page():
         ui.label("Top 'Gold Nugget' N-Grams:").classes('text-xl font-semibold mt-6')
         ui.markdown(
             "**Methodology:** These 'Gold Nugget' phrases are sourced from search terms that lead to strong performance. "
-            "They are identified by having a healthy number of conversions (e.g., >=5) and a cost per acquisition (CPA) "
-            "below a specific target (e.g., < $50), indicating high profitability. They are sorted by Return On Ad Spend (ROAS) "
+            "They are identified by having a healthy number of conversions (>=5) and a cost per acquisition (CPA) "
+            "below a specific target (< $50), indicating high profitability. They are sorted by Return On Ad Spend (ROAS) "
             "to prioritize the most valuable terms."
         ).classes('text-sm my-2')
         if not best_ngrams.empty:
@@ -177,7 +176,7 @@ def main_page():
         ui.markdown(
             "**Methodology:** These 'Mismatched' phrases have high impression volume (e.g., >5,000) but a low CTR "
             "(e.g., <5%). This suggests a relevance gap between what users are searching for and what your ad headline "
-            "communicates. Using these phrases in your ad copy can directly address user queries and improve click rates."
+            "communicates. Using these phrases in ad copy can directly address user queries and improve click rates."
         ).classes('text-sm my-2')
         if not mismatched_ngrams.empty:
             ui.table(columns=[{'name': col, 'label': col, 'field': col} for col in mismatched_ngrams.head().columns], rows=mismatched_ngrams.head().to_dict('records')).classes('w-full my-4')

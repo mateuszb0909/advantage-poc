@@ -30,19 +30,35 @@ def generate_suggestions(client, underperforming_ad, best_ngrams_df, mismatched_
         return ["No 'Mismatched' n-grams found to generate suggestions from."]
 
     prompt = f"""
-    **Persona:** Expert Google Ads copywriter.
-    **Task:** Generate two new Search Ad variations for an underperforming ad.
-    **Context:**
-    * **Ad Group:** "{underperforming_ad['Ad group']}"
-    * **Original Headline:** "{underperforming_ad['Headline 1']}"
-    * **Problem:** The ad has a low CTR ({underperforming_ad['CTR']:.2%}) because it doesn't match what people search for.
-    * **Problematic Phrases (High Impressions, Low CTR):** {top_mismatched_ngrams}
-    * **Proven "Gold Nugget" Phrases (High Conversion):** {top_best_ngrams}
-    **Instructions:**
-    1.  **Fix Relevance:** MUST use "Problematic Phrases" in the new headlines to increase CTR.
-    2.  **Drive Conversions:** Use "Gold Nugget" phrases in the descriptions.
-    3.  **Limits:** Headlines <= 30 chars. Descriptions <= 90 chars.
-    4.  **Output:** Create 2 distinct variations (3 headlines, 2 descriptions each).
+    **Persona:** Highly skilled Google Ads copywriter specializing in performance optimization.
+
+**Task:** Develop two distinct, high-performing Search Ad variations to replace an underperforming ad.
+
+**Context:**
+* **Ad Group:** "{underperforming_ad['Ad group']}"
+* **Current Primary Headline:** "{underperforming_ad['Headline 1']}"
+* **Performance Issue:** The existing ad is experiencing a low Click-Through Rate (CTR) of {underperforming_ad['CTR']:.2%} primarily due to a disconnect between the ad copy and user search queries.
+* **Identified Keyword Gaps (High Impressions, Low CTR - indicating poor relevance):** {top_mismatched_ngrams}
+* **High-Converting Value Propositions (Proven "Gold Nugget" Phrases):** {top_best_ngrams}
+
+**Core Objectives for New Ad Variations:**
+1.  **Maximize Relevance (Increase CTR):** Integrate key phrases from "Identified Keyword Gaps" into new headlines to directly address user search intent.
+2.  **Optimize for Conversion (Drive Action):** Incorporate the "High-Converting Value Propositions" into the descriptions to highlight benefits and encourage desired actions.
+
+**Ad Creation Guidelines:**
+* **Headlines:**
+    * Craft three compelling and unique headlines per ad variation.
+    * Each headline **must** be 30 characters or less.
+    * Prioritize clarity and directness. Aim to include at least one "Identified Keyword Gap" phrase across the three headlines for each variation.
+* **Descriptions:**
+    * Write two distinct, benefit-driven descriptions per ad variation.
+    * Each description **must** be 90 characters or less.
+    * Effectively leverage "High-Converting Value Propositions" to articulate the unique selling points and call users to action.
+
+**Output Format:**
+Generate 2 complete and distinct ad variations. Each variation should include:
+* 3 unique headlines.
+* 2 unique descriptions.
     """
 
     # --- 2. Define Output Schema & Generation Config ---
@@ -80,7 +96,10 @@ def generate_suggestions(client, underperforming_ad, best_ngrams_df, mismatched_
             "**BEFORE (Underperforming Ad)**\n\n"
             f"> **Headline:** {headline}\n"
             f"> **Description:** {underperforming_ad.get('Description 1', 'N/A')}\n"
-            f"> **CTR:** {ctr:.2%}"
+            f"> **CTR:** {ctr:.2%}\n\n"
+            f" **Top mismatched n-grams:** {', '.join(top_mismatched_ngrams)}\n\n"
+            f" **Top gold nugget n-grams:** {', '.join(top_best_ngrams)}"
+
         )
         formatted_suggestions.append(before_str)
 
