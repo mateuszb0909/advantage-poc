@@ -71,6 +71,7 @@ def main_page():
 
     # --- Tabbed Results Area ---
     # This section will be populated after the analysis runs.
+    
     with ui.row().classes('w-full mx-0'):
          with ui.card().classes('w-full mx-0'):
             # Create a container for the tabs that will be added dynamically.

@@ -32,33 +32,33 @@ def generate_suggestions(client, underperforming_ad, best_ngrams_df, mismatched_
     prompt = f"""
     **Persona:** Highly skilled Google Ads copywriter specializing in performance optimization.
 
-**Task:** Develop two distinct, high-performing Search Ad variations to replace an underperforming ad.
+    **Task:** Develop two distinct, high-performing Search Ad variations to replace an underperforming ad.
 
-**Context:**
-* **Ad Group:** "{underperforming_ad['Ad group']}"
-* **Current Primary Headline:** "{underperforming_ad['Headline 1']}"
-* **Performance Issue:** The existing ad is experiencing a low Click-Through Rate (CTR) of {underperforming_ad['CTR']:.2%} primarily due to a disconnect between the ad copy and user search queries.
-* **Identified Keyword Gaps (High Impressions, Low CTR - indicating poor relevance):** {top_mismatched_ngrams}
-* **High-Converting Value Propositions (Proven "Gold Nugget" Phrases):** {top_best_ngrams}
+    **Context:**
+    * **Ad Group:** "{underperforming_ad['Ad group']}"
+    * **Current Primary Headline:** "{underperforming_ad['Headline 1']}"
+    * **Performance Issue:** The existing ad is experiencing a low Click-Through Rate (CTR) of {underperforming_ad['CTR']:.2%} primarily due to a disconnect between the ad copy and user search queries.
+    * **Identified Keyword Gaps (High Impressions, Low CTR - indicating poor relevance):** {top_mismatched_ngrams}
+    * **High-Converting Value Propositions (Proven "Gold Nugget" Phrases):** {top_best_ngrams}
 
-**Core Objectives for New Ad Variations:**
-1.  **Maximize Relevance (Increase CTR):** Integrate key phrases from "Identified Keyword Gaps" into new headlines to directly address user search intent.
-2.  **Optimize for Conversion (Drive Action):** Incorporate the "High-Converting Value Propositions" into the descriptions to highlight benefits and encourage desired actions.
+    **Core Objectives for New Ad Variations:**
+    1.  **Maximize Relevance (Increase CTR):** Integrate key phrases from "Identified Keyword Gaps" into new headlines to directly address user search intent.
+    2.  **Optimize for Conversion (Drive Action):** Incorporate the "High-Converting Value Propositions" into the descriptions to highlight benefits and encourage desired actions.
 
-**Ad Creation Guidelines:**
-* **Headlines:**
-    * Craft three compelling and unique headlines per ad variation.
-    * Each headline **must** be 30 characters or less.
-    * Prioritize clarity and directness. Aim to include at least one "Identified Keyword Gap" phrase across the three headlines for each variation.
-* **Descriptions:**
-    * Write two distinct, benefit-driven descriptions per ad variation.
-    * Each description **must** be 90 characters or less.
-    * Effectively leverage "High-Converting Value Propositions" to articulate the unique selling points and call users to action.
+    **Ad Creation Guidelines:**
+    * **Headlines:**
+        * Craft three compelling and unique headlines per ad variation.
+        * Each headline **must** be 30 characters or less.
+        * Prioritize clarity and directness. Aim to include at least one "Identified Keyword Gap" phrase across the three headlines for each variation.
+    * **Descriptions:**
+        * Write two distinct, benefit-driven descriptions per ad variation.
+        * Each description **must** be 90 characters or less.
+        * Effectively leverage "High-Converting Value Propositions" to articulate the unique selling points and call users to action.
 
-**Output Format:**
-Generate 2 complete and distinct ad variations. Each variation should include:
-* 3 unique headlines.
-* 2 unique descriptions.
+    **Output Format:**
+    Generate 2 complete and distinct ad variations. Each variation should include:
+    * 3 unique headlines.
+    * 2 unique descriptions.
     """
 
     # --- 2. Define Output Schema & Generation Config ---
