@@ -30,35 +30,45 @@ def generate_suggestions(client, underperforming_ad, best_ngrams_df, mismatched_
         return ["No 'Mismatched' n-grams found to generate suggestions from."]
 
     prompt = f"""
-    **Persona:** Highly skilled Google Ads copywriter specializing in performance optimization.
+**Persona**: Highly skilled Google Ads copywriter specializing in performance optimization and deeply knowledgeable in Google Ads policy guidelines (Prohibited Content, Restricted Content, Editorial & Technical Requirements, etc.) to ensure all ad variations are compliant.
+**Task**: Develop two distinct, high-performing Search Ad variations to replace an underperforming ad.
+**Context:**
+Ad Group: "{underperforming_ad['Ad group']}"
+Current Primary Headline: "{underperforming_ad['Headline 1']}"
+Performance Issue: The existing ad is experiencing a low Click-Through Rate (CTR) of {underperforming_ad['CTR']:.2%} primarily due to a disconnect between the ad copy and user search queries.
+Identified Keyword Gaps (High Impressions, Low CTR - indicating poor relevance): {top_mismatched_ngrams}
+High-Converting Value Propositions (Proven "Gold Nugget" Phrases): {top_best_ngrams}
+*Core Objectives for New Ad Variations*:
 
-    **Task:** Develop two distinct, high-performing Search Ad variations to replace an underperforming ad.
+Maximize Relevance (Increase CTR): Integrate key phrases from "Identified Keyword Gaps" into new headlines to directly address user search intent.
+Optimize for Conversion (Drive Action): Incorporate the "High-Converting Value Propositions" into the descriptions to highlight benefits and encourage desired actions.
+Ad Creation Guidelines:
 
-    **Context:**
-    * **Ad Group:** "{underperforming_ad['Ad group']}"
-    * **Current Primary Headline:** "{underperforming_ad['Headline 1']}"
-    * **Performance Issue:** The existing ad is experiencing a low Click-Through Rate (CTR) of {underperforming_ad['CTR']:.2%} primarily due to a disconnect between the ad copy and user search queries.
-    * **Identified Keyword Gaps (High Impressions, Low CTR - indicating poor relevance):** {top_mismatched_ngrams}
-    * **High-Converting Value Propositions (Proven "Gold Nugget" Phrases):** {top_best_ngrams}
+*Google Ads Policy Compliance (CRITICAL):*
 
-    **Core Objectives for New Ad Variations:**
-    1.  **Maximize Relevance (Increase CTR):** Integrate key phrases from "Identified Keyword Gaps" into new headlines to directly address user search intent.
-    2.  **Optimize for Conversion (Drive Action):** Incorporate the "High-Converting Value Propositions" into the descriptions to highlight benefits and encourage desired actions.
+All headlines and descriptions MUST strictly adhere to Google Ads policies. Before generating, thoroughly review and self-correct any potential policy violations. This includes, but is not limited to:
+Prohibited Content: Absolutely no promotion of illegal activities, dangerous products/services (e.g., weapons, recreational drugs), counterfeit goods, or content that promotes hate speech or discrimination.
+Restricted Content: If the product/service relates to sensitive categories (e.g., alcohol, gambling, healthcare, financial services, political content), ensure the copy respects all relevant restrictions, legal requirements, and necessary disclosures (e.g., age restrictions, licensing, "Terms Apply" disclaimers where appropriate).
+Editorial & Technical Standards:
+Maintain professional, clear, and accurate language.
+Avoid excessive capitalization (e.g., "FREE!!!"), gimmicky symbols, jargon, vague phrasing, or misspellings.
+Ensure a strong, direct relationship between the ad copy and the likely content of the landing page.
+Do not use misleading claims or superlatives that cannot be substantiated (e.g., "Best in the World" without credible evidence).
+Avoid asking for sensitive personal information directly in the ad copy (e.g., "Enter your SSN here").
+Trademark Compliance: Do not use trademarked terms unless explicitly authorized by the trademark owner for this specific use case.
 
-    **Ad Creation Guidelines:**
-    * **Headlines:**
-        * Craft three compelling and unique headlines per ad variation.
-        * Each headline **must** be 30 characters or less.
-        * Prioritize clarity and directness. Aim to include at least one "Identified Keyword Gap" phrase across the three headlines for each variation.
-    * **Descriptions:**
-        * Write two distinct, benefit-driven descriptions per ad variation.
-        * Each description **must** be 90 characters or less.
-        * Effectively leverage "High-Converting Value Propositions" to articulate the unique selling points and call users to action.
-
-    **Output Format:**
-    Generate 2 complete and distinct ad variations. Each variation should include:
-    * 3 unique headlines.
-    * 2 unique descriptions.
+*Headlines:*
+Craft three compelling and unique headlines per ad variation.
+Each headline must be 30 characters or less.
+Prioritize clarity and directness. Aim to include at least one "Identified Keyword Gap" phrase across the three headlines for each variation.
+*Descriptions:*
+Write two distinct, benefit-driven descriptions per ad variation.
+Each description must be 90 characters or less.
+Effectively leverage "High-Converting Value Propositions" to articulate the unique selling points and call users to action.
+**Output Format:**
+Generate 2 complete and distinct ad variations. Each variation should include:
+3 unique headlines.
+2 unique descriptions.
     """
 
     # --- 2. Define Output Schema & Generation Config ---
